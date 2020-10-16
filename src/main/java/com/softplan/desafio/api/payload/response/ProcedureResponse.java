@@ -18,9 +18,9 @@ public class ProcedureResponse {
 	
 	private String description;
 	
-	private OffsetDateTime registerDate;
+	private OffsetDateTime dateRegiter;
 	
 	private List<Opinion> opinions;
 	
-	private Set<UserResponse> users = new HashSet<>();
+	private Set<UserResponse> users;
 }

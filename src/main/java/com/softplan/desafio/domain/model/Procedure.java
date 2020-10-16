@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,7 +29,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(	name = "process")
+@Table(	name = "procedures")
 @Setter @Getter
 @AllArgsConstructor @NoArgsConstructor
 public class Procedure {
@@ -42,16 +43,16 @@ public class Procedure {
 	private String description;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_user_register")
+	@JoinColumn(name = "user_register_id")
 	private User user;
 	
-	private OffsetDateTime registerDate;
+	@Column( name = "date_register")
+	private OffsetDateTime dateRegiter;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "procedure")
 	private List<Opinion> opinions;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinTable(	name = "procedure_opinion", 
 				joinColumns = @JoinColumn(name = "procedure_id"), 
 				inverseJoinColumns = @JoinColumn(name = "user_id"))

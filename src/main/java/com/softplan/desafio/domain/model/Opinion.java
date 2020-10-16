@@ -4,6 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,13 +37,14 @@ public class Opinion {
 	@Size(max = 255)
 	private String description;
 	
-	private OffsetDateTime registerDate;
+	@Column( name = "date_register")
+	private OffsetDateTime dateRegister;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_user")
+	@JoinColumn(name = "user_id")
 	private User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_procedure")
+	@JoinColumn(name = "procedure_id")
 	private Procedure procedure;
 }

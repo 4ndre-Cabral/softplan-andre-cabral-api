@@ -23,7 +23,5 @@ public class ProcedureRequest {
 	@NotNull
 	private UserRequest user;
 	
-	private List<Opinion> opinions;
-	
 	private Set<UserRequest> users = new HashSet<>();
 }
