@@ -1,4 +1,4 @@
-package com.softplan.desafio.api.mapper;
+package com.softplan.desafio.domain.mapper;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

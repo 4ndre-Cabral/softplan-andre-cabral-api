@@ -1,6 +1,6 @@
 package com.softplan.desafio.api.payload.response;
 
-import com.softplan.desafio.models.RoleEnum;
+import com.softplan.desafio.domain.model.RoleEnum;
 
 import lombok.Getter;
 import lombok.Setter;

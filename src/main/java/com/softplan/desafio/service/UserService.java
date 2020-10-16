@@ -1,4 +1,4 @@
-package com.softplan.desafio.api.service;
+package com.softplan.desafio.service;
 
 import java.util.HashSet;
 import java.util.List;
@@ -10,15 +10,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.softplan.desafio.api.mapper.UserRequestMapper;
-import com.softplan.desafio.api.mapper.UserResponseMapper;
 import com.softplan.desafio.api.payload.request.UserRequest;
 import com.softplan.desafio.api.payload.response.UserResponse;
 import com.softplan.desafio.auth.payload.response.MessageResponse;
+import com.softplan.desafio.domain.mapper.UserRequestMapper;
+import com.softplan.desafio.domain.mapper.UserResponseMapper;
+import com.softplan.desafio.domain.model.Role;
+import com.softplan.desafio.domain.model.RoleEnum;
+import com.softplan.desafio.domain.model.User;
 import com.softplan.desafio.exception.NotFoundException;
-import com.softplan.desafio.models.Role;
-import com.softplan.desafio.models.RoleEnum;
-import com.softplan.desafio.models.User;
 import com.softplan.desafio.repository.RoleRepository;
 import com.softplan.desafio.repository.UserRepository;
 
@@ -91,6 +91,8 @@ public class UserService {
 
 		user.setRoles(roles);
 		user.setId(found.get().getId());
+		user.setUsername(user.getUsername() == null ? found.get().getUsername() : user.getUsername());
+		user.setEmail(user.getEmail() == null ? found.get().getEmail() : user.getEmail());
 		user.setPassword(user.getPassword() == null ? found.get().getPassword() : encoder.encode(user.getPassword()));
 		return userResponseMapper.domainToDto(userRepository.save(user));
 	}
@@ -100,8 +102,8 @@ public class UserService {
 		if(!found.isPresent())
 			throw new NotFoundException();
 		User user = found.get();
-		Set<Role> roles = user.getRoles();
-		roleRepository.deleteAll(roles);
+//		Set<Role> roles = user.getRoles();
+//		roleRepository.deleteAll(roles);
 		userRepository.delete(user);
 		return ResponseEntity.ok(new MessageResponse("Usuário excluido com sucesso!"));
 	}

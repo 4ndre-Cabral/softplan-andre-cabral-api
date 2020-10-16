@@ -1,4 +1,4 @@
-package com.softplan.desafio.models;
+package com.softplan.desafio.domain.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -11,18 +11,18 @@ import lombok.Setter;
  
 @Setter @Getter
 public class SignupRequest {
-    @NotBlank
+    @NotBlank(message = "O nome de usuário é obrigatório")
     @Size(min = 3, max = 20)
     private String username;
  
-    @NotBlank
+    @NotBlank(message = "O email é obrigatório")
     @Size(max = 50)
     @Email
     private String email;
     
     private Set<String> role;
     
-    @NotBlank
+    @NotBlank(message = "A senha é obrigatória")
     @Size(min = 6, max = 40)
     private String password;
   

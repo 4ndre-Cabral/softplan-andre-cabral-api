@@ -10,11 +10,11 @@ public class UserRequest {
 	
 	private Long id;
 	
-	private String username;
-	 
+    private String username;
+ 
     private String email;
     
-	private String password;
+    private String password;
     
     private Set<String> role;
 }

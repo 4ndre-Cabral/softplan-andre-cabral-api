@@ -1,4 +1,4 @@
-package com.softplan.desafio.models;
+package com.softplan.desafio.domain.model;
 
 public enum RoleEnum {
     ROLE_ADMIN,

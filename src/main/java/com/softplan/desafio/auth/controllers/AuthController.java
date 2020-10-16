@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.softplan.desafio.auth.payload.request.LoginRequest;
 import com.softplan.desafio.auth.payload.request.SignupRequest;
-import com.softplan.desafio.auth.service.AuthService;
+import com.softplan.desafio.service.AuthService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

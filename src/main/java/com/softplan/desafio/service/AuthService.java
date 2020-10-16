@@ -1,4 +1,4 @@
-package com.softplan.desafio.auth.service;
+package com.softplan.desafio.service;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,9 +20,9 @@ import com.softplan.desafio.auth.payload.request.LoginRequest;
 import com.softplan.desafio.auth.payload.request.SignupRequest;
 import com.softplan.desafio.auth.payload.response.JwtResponse;
 import com.softplan.desafio.auth.payload.response.MessageResponse;
-import com.softplan.desafio.models.Role;
-import com.softplan.desafio.models.RoleEnum;
-import com.softplan.desafio.models.User;
+import com.softplan.desafio.domain.model.Role;
+import com.softplan.desafio.domain.model.RoleEnum;
+import com.softplan.desafio.domain.model.User;
 import com.softplan.desafio.repository.RoleRepository;
 import com.softplan.desafio.repository.UserRepository;
 import com.softplan.desafio.security.jwt.JwtUtils;
