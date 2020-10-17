@@ -19,5 +19,5 @@ public class OpinionRequest {
 	private User user;
 	
 	@NotNull
-	private Procedure process;
+	private Procedure procedure;
 }

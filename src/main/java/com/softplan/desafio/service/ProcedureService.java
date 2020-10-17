@@ -39,6 +39,10 @@ public class ProcedureService {
 		return procedureResponseMapper.domainToDto(procedureRepository.findAll());
 	}
 	
+	public List<ProcedureResponse> findUnsignedProceduresByUserId(Long userId) {
+		return procedureResponseMapper.domainToDto(procedureRepository.findUnsignedProceduresByUserId(userId));
+	}
+	
 	public ProcedureResponse add(ProcedureRequest dto) {
 		Procedure procedure = procedureRequestMapper.dtoToDomain(dto);
 		procedure.setUsers(this.getUsersFromProcedure(dto));

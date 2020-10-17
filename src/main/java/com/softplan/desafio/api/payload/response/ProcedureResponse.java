@@ -20,7 +20,7 @@ public class ProcedureResponse {
 	
 	private OffsetDateTime dateRegiter;
 	
-	private List<Opinion> opinions;
+	private List<OpinionResponse> opinions;
 	
 	private Set<UserResponse> users;
 }

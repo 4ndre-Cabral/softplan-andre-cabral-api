@@ -47,6 +47,15 @@ public class ProcedureController {
 	public List<ProcedureResponse> findAll() {
 		return procedureService.findAll();
 	}
+
+	@GetMapping("{userId}/unsigned")
+	@ApiOperation(value = "Listar todos os processos sem parecer pelo id do usuário ", authorizations = { @Authorization(value = "Usuário finalizador") })
+	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
+	@ResponseStatus(HttpStatus.OK)
+	@PreAuthorize("hasRole('FINALIZADOR')")
+	public List<ProcedureResponse> findUnsignedProceduresByUserId(@ApiParam(required=true) @PathVariable Long userId) {
+		return procedureService.findUnsignedProceduresByUserId(userId);
+	}
 	
 	@PostMapping
 	@ApiOperation(value = "Listar todos os processos", authorizations = { @Authorization(value = "Usuário triador") })

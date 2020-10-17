@@ -34,7 +34,7 @@ public class OpinionController {
 	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('FINALIZADOR')")
-	public ResponseEntity<?> userRegister(@Valid @RequestBody OpinionRequest dto) {
+	public ResponseEntity<?> opinionRegister(@Valid @RequestBody OpinionRequest dto) {
 		return opinionService.add(dto);
 		
 	}
