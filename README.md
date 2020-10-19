@@ -61,25 +61,28 @@ Para atender a proposta do desafio, este projeto conta com restrição de acesso
 > - ROLE_FINALIZADOR
 
 Desta forma, para cada Role nós temos um nível diferente de acesso aos recursos:
-- ROLE_ADMIN
+> ROLE_ADMIN
+
 Tem acesso ao serviço de usuário:
-> - Listar todos
-> - Listar por ID
-> - Cadastrar
-> - Atualizar
-> - Remover por ID
+- Listar todos
+- Listar por ID
+- Cadastrar
+- Atualizar
+- Remover por ID
 
-- ROLE_TRIADOR
+> ROLE_TRIADOR
+
 Tem acesso ao serviço de processos:
-> - Listar todos
-> - Listar por ID
-> - Cadastrar
-> - Atualizar lista de usuários
+- Listar todos
+- Listar por ID
+- Cadastrar
+- Atualizar lista de usuários
 
-- ROLE_FINALIZADOR
+> ROLE_FINALIZADOR
+
 Tem acesso ao serviço de processos e pareceres:
-> - Listar todos os processos sem parecer pelo id do usuário
-> - Cadastar um parecer
+- Listar todos os processos sem parecer pelo id do usuário
+- Cadastar um parecer
 
 
 
