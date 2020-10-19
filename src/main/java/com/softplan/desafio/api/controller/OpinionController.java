@@ -30,7 +30,11 @@ public class OpinionController {
 	
 	@PostMapping
 	@ApiOperation(value = "Cadastar um parecer", authorizations = { @Authorization(value = "Bearer Authentication") })
-	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
+	@ApiResponses({
+		@ApiResponse(code = 401, message = "Acesso não autorizado."),
+		@ApiResponse(code = 400, message = "Solicitação inválida."),
+		@ApiResponse(code = 500, message = "Erro interno.")
+	})
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('FINALIZADOR')")
 	public ResponseEntity<?> opinionRegister(@Valid @RequestBody OpinionRequest dto) {

@@ -31,7 +31,10 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	@ApiOperation(value = "Login")
-	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
+	@ApiResponses({
+		@ApiResponse(code = 401, message = "Acesso não autorizado."), 
+		@ApiResponse(code = 400, message = "Solicitação inválida.")
+	})
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<?> userAutentication(@Valid @RequestBody LoginRequest loginRequest) {
 		

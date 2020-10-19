@@ -49,7 +49,9 @@ public class ProcedureController {
 
 	@GetMapping("unsigned/{userId}")
 	@ApiOperation(value = "Listar todos os processos sem parecer pelo id do usuário ", authorizations = { @Authorization(value = "Bearer Authentication") })
-	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
+	@ApiResponses({
+		@ApiResponse(code = 401, message = "Acesso não autorizado.")
+	})
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('FINALIZADOR')")
 	public List<ProcedureResponse> findUnsignedProceduresByUserId(@ApiParam(required=true) @PathVariable Long userId) {
@@ -58,7 +60,10 @@ public class ProcedureController {
 	
 	@GetMapping("{id}")
 	@ApiOperation(value = "Listar processo pelo id ", authorizations = { @Authorization(value = "Bearer Authentication") })
-	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
+	@ApiResponses({
+		@ApiResponse(code = 401, message = "Acesso não autorizado."),
+		@ApiResponse(code = 404, message = "Não encontrado")
+	})
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('TRIADOR')")
 	public ProcedureResponse findById(@ApiParam(required=true) @PathVariable Long id) {
@@ -71,7 +76,11 @@ public class ProcedureController {
 	
 	@PostMapping
 	@ApiOperation(value = "Cadastrar novo processo", authorizations = { @Authorization(value = "Bearer Authentication") })
-	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
+	@ApiResponses({
+		@ApiResponse(code = 401, message = "Acesso não autorizado."),
+		@ApiResponse(code = 400, message = "Solicitação inválida."),
+		@ApiResponse(code = 500, message = "Erro interno.")
+	})
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('TRIADOR')")
 	public ProcedureResponse procedureRegister(@Valid @RequestBody ProcedureRequest dto) {
@@ -84,6 +93,8 @@ public class ProcedureController {
 	@ResponseStatus(HttpStatus.OK)
 	@ApiResponses({
 		@ApiResponse(code = 401, message = "Acesso não autorizado."),
+		@ApiResponse(code = 400, message = "Solicitação inválida."),
+		@ApiResponse(code = 500, message = "Erro interno.")
 	})
 	@PreAuthorize("hasRole('TRIADOR')")
 	public ProcedureResponse updateUserList(

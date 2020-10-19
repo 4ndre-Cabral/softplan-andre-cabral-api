@@ -85,21 +85,25 @@ Tem acesso ao serviço de processos e pareceres:
 - Cadastar um parecer
 
 
-
-### Flyway
-Ferramenta responsável por fazer os migrations do banco de dados, criando e atualizando o mesmo conforme o aplicativo evolui. É atravéz dele que é realizado o cadastro do usuário inicial Admin.
-
-### ModelMapper
-Todas as entidades do domínio da aplicação são isoladas do recusos da mesma através do ModelMapper. Com ele é possível usar o conceito de Data Transfer Object (DTO), trazendo maior segurança a aplicação, versatilidade, manutenibilidade e evitar o uso da notação @JsonIgnore
-
-### Swagger
-Responsável por documentar a api, fornecendo todos os dados e recursos necessários para a mesma. Pode ser acessado através do link:
+### Documentação da api com Swagger
+A documentação de todos endpoints da api pode ser encontrada na seguinte URL:
 
 ```
 http://localhost:8080/swagger-ui.html#/
 ```
 
 Caso a api esteja rodando localmente na porta 8080 que é a porta padrão deste projeto
+
+> Atenção: é necessário autenticar com um usuário ADMIN para ter acesso a todos endpoints
+
+> Ex.: Clique no botão Authorize e no campo Value insira um token de autenticação válido, depois clique em Authorize novamente
+> Exemplo de token válido: Bearer + token_gerado_ao_fazer_login
+
+### Flyway
+Ferramenta responsável por fazer os migrations do banco de dados, criando e atualizando o mesmo conforme o aplicativo evolui. É atravéz dele que é realizado o cadastro do usuário inicial Admin e os respectivos Roles: ROLE_ADMIN, ROLE_TRIADOR e ROLE_FINALIZADOR
+
+### ModelMapper
+Todas as entidades do domínio da aplicação são isoladas do recusos da mesma através do ModelMapper. Com ele é possível usar o conceito de Data Transfer Object (DTO), trazendo maior segurança a aplicação, versatilidade, manutenibilidade e evitar o uso da notação @JsonIgnore
 
 ## Referências
 > https://spring.io/projects/spring-security

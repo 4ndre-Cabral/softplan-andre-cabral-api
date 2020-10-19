@@ -68,7 +68,10 @@ public class UserController {
 
 	@PostMapping("/signup")
 	@ApiOperation(value = "Cadastrar usuário", authorizations = { @Authorization(value = "Bearer Authentication") })
-	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado.") })
+	@ApiResponses({
+		@ApiResponse(code = 401, message = "Acesso não autorizado."), 
+		@ApiResponse(code = 400, message = "Solicitação inválida.")
+	})
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> userRegister(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -82,6 +85,7 @@ public class UserController {
 	@ResponseStatus(HttpStatus.OK)
 	@ApiResponses({
 		@ApiResponse(code = 401, message = "Acesso não autorizado."),
+		@ApiResponse(code = 404, message = "Não encontrado")
 	})
 	@PreAuthorize("hasRole('ADMIN')")
 	public UserResponse update(
