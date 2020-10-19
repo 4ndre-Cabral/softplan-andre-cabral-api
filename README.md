@@ -31,7 +31,7 @@ project.description=@project.description@
 ```
 #### Tavez você não queira usar o banco de dados de teste
 O banco de dados de teste da AWS é lento e talvez não esteja disponível quando você
-precisar. Pensando nisso, esta api foi projeta para ser rodada em qualquer servidor MySQL 5.5+. Sendo assim, basta alterar as variáveis de conexão para seu servidor MySQL particular. A api irá instânciar um novo banco com todas as tabelas necessárias e também irá cadastrar os Roles (tipos de usuário) e um usuário Admin para teste.
+precisar. Pensando nisso, esta api foi projeta para ser rodada em qualquer servidor MySQL 5.7+. Sendo assim, basta alterar as variáveis de conexão para seu servidor MySQL particular. A api irá instânciar um novo banco com todas as tabelas necessárias e também irá cadastrar os Roles (tipos de usuário) e um usuário Admin para teste.
 
 ## Usuário Admin inicial
 Para acessar qualquer recurso da api (com exceção do login) é necessáro ter privilégios. Para evitar que o usuário que irá testar a aplicação tenha que cadastrar um usuário manualmente, a aplicação cadastra um usuário Admin com os seguintes dados:
