@@ -43,6 +43,13 @@ public class ProcedureService {
 		return procedureResponseMapper.domainToDto(procedureRepository.findUnsignedProceduresByUserId(userId));
 	}
 	
+	public ProcedureResponse findById(Long id) throws NotFoundException {
+		Optional<Procedure> procedureFound = procedureRepository.findById(id);
+		if(!procedureFound.isPresent())
+			throw new NotFoundException();
+		return procedureResponseMapper.domainToDto(procedureFound.get());
+	}
+	
 	public ProcedureResponse add(ProcedureRequest dto) {
 		Procedure procedure = procedureRequestMapper.dtoToDomain(dto);
 		procedure.setUsers(this.getUsersFromProcedure(dto));
@@ -59,9 +66,14 @@ public class ProcedureService {
 		return procedureResponseMapper.domainToDto(procedureRepository.save(procedure));
 	}
 	
+	/**
+	 * Get valid user array
+	 * @param dto
+	 * @return users
+	 */
 	public Set<User> getUsersFromProcedure (ProcedureRequest dto) {
 		Set<User> users = new HashSet<>();
-		//Elimina usuarios inexistentes
+		//Remove nonexistent users from array
 		for (UserRequest userRequest : dto.getUsers()) {
 			Optional<User> found = userRepository.findById(userRequest.getId());
 			if(found.isPresent())

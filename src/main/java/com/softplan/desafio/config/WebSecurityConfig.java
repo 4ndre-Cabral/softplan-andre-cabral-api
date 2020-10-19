@@ -1,4 +1,4 @@
-package com.softplan.desafio.security;
+package com.softplan.desafio.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.softplan.desafio.security.jwt.AuthEntryPointJwt;
 import com.softplan.desafio.security.jwt.JWTAuthenticationFilter;
-import com.softplan.desafio.security.services.UserDetailsServiceImpl;
+import com.softplan.desafio.security.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -57,7 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 			.antMatchers("/api/auth/**").permitAll()
-			.antMatchers("/api/test/**").permitAll()
+			.antMatchers(
+				"/swagger-ui.html",
+				"/webjars/springfox-swagger-ui/**",
+				"/swagger-resources/**",
+				"/v2/api-docs").permitAll()
 			.anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

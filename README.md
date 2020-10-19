@@ -1,74 +1,108 @@
-# Spring Boot JWT Authentication example with Spring Security & Spring Data JPA
+# RestAPI desafio Softplan (softplan-andre-cabral-api)
 
-For more detail, please visit:
-> [Secure Spring Boot App with Spring Security & JWT Authentication](https://softplan.com/spring-boot-jwt-authentication/)
+RestAPI com todos os endpoints necessário para cumprir o desafio
+técnico da Softplan
 
-> [For MongoDB](https://softplan.com/spring-boot-jwt-auth-mongodb/)
+---
 
-# Fullstack
-
-> [Spring Boot + Vue.js JWT Authentication](https://softplan.com/spring-boot-vue-js-authentication-jwt-spring-security/)
-
-> [Spring Boot + Angular 8 JWT Authentication](https://softplan.com/angular-spring-boot-jwt-auth/)
-
-> [Spring Boot + React JWT Authentication](https://softplan.com/spring-boot-react-jwt-auth/)
-
-## Dependency
-– If you want to use PostgreSQL:
-```xml
-<dependency>
-  <groupId>org.postgresql</groupId>
-  <artifactId>postgresql</artifactId>
-  <scope>runtime</scope>
-</dependency>
-```
-– or MySQL:
-```xml
-<dependency>
-  <groupId>mysql</groupId>
-  <artifactId>mysql-connector-java</artifactId>
-  <scope>runtime</scope>
-</dependency>
-```
-## Configure Spring Datasource, JPA, App properties
-Open `src/main/resources/application.properties`
-- For PostgreSQL:
-```
-spring.datasource.url= jdbc:postgresql://localhost:5432/testdb
-spring.datasource.username= postgres
-spring.datasource.password= 123
-
-spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation= true
-spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.PostgreSQLDialect
-
-# Hibernate ddl auto (create, create-drop, validate, update)
-spring.jpa.hibernate.ddl-auto= update
-
-# App Properties
-softplan.app.jwtSecret= softplanSecretKey
-softplan.app.jwtExpirationMs= 86400000
-```
-- For MySQL
-```
-spring.datasource.url= jdbc:mysql://localhost:3306/testdb?useSSL=false
-spring.datasource.username= root
-spring.datasource.password= 123456
-
-spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL5InnoDBDialect
-spring.jpa.hibernate.ddl-auto= update
-
-# App Properties
-softplan.app.jwtSecret= softplanSecretKey
-softplan.app.jwtExpirationMs= 86400000
-```
-## Run Spring Boot application
+## Rodar aplicação Spring Boot
 ```
 mvn spring-boot:run
 ```
 
-## Run following SQL insert statements
+## Configurar Spring Datasource, JPA, App properties
+Abrir `src/main/resources/application.properties`
+- Este projeto já está configurado para se comunicar com um banco de testes
+da AWS (para simplificar os teste da api).
 ```
-INSERT INTO `roles`(`name`) VALUES('ROLE_USER');
-INSERT INTO `roles`(`name`) VALUES('ROLE_MODERATOR');
-INSERT INTO `roles`(`name`) VALUES('ROLE_ADMIN');
+spring.datasource.url=jdbc:mysql://database-1.cvdrvan6iiux.us-east-2.rds.amazonaws.com:3306/softplan?createDatabaseIfNotExist=true&serverTimezone=UTC
+spring.datasource.username=admin
+spring.datasource.password=3271512a
+
+spring.jpa.show-sql=true
+
+# App Properties
+softplan.app.jwtSecret= softplanSecretKey
+softplan.app.jwtExpirationMs= 86400000
+
+project.version=@project.version@
+project.name=@project.name@
+project.description=@project.description@
 ```
+#### Tavez você não queira usar o banco de dados de teste
+O banco de dados de teste da AWS é lento e talvez não esteja disponível quando você
+precisar. Pensando nisso, esta api foi projeta para ser rodada em seu próprio servidor MySQL. Sendo assim, basta alterar as variáveis de conexão para seu próprio servidor. A api irá instânciar um novo banco com todas as tabelas necessárias e também irá cadastrar um usuário Admin para teste.
+
+## Usuário Admin inicial
+Para acessar qualquer recurso da api (com exceção do login) é necessáro ter privilégios. Para evitar que o usuário que irá testar a aplicação tenha que cadastrar um usuário manualmente, a aplicação cadastra um usuário Admin com os seguintes dados:
+
+> Nome de usuário: admin
+> Senha: 123456
+
+---
+
+## Suposições e caracteristicas do projeto
+
+### Entidades e relacionamentos
+- Cada usuário (User) pode está relacionado com um ou mais tipo de usuário (Role)
+- Cada processo (Procedure) deve estar relacionado a um usuário (User de cadastro). E pode estar relacionado a vários pareceres.
+- Cada parecer (Opinion) deve está relacionado a um usuário (User) e um processo (Procedure)
+
+### Ferramentas utilizadas
+
+#### Spring Security
+Para atender a proposta do desafio, este projeto conta com restrição de acesso a rotas e recursos tanto no front-end quanto no back-end.
+
+- Toda autenticação é feita através de JWT
+- Foi utilizado o conceito de privilégios, para servir determinado recurso a determinado usuário. Para isso, foi criado uma entity chamada Role (tipo de usuário) que é responsável por representar esses privilégios. Cada usuário pode estar vinculado a um ou mais Roles, permitindo assim que ele acesse diferentes níveis de recursos.
+> Roles disponíveis
+> - ROLE_ADMIN
+> - ROLE_TRIADOR
+> - ROLE_FINALIZADOR
+
+Desta forma, para cada Role nós temos um nível diferente de acesso aos recursos:
+- ROLE_ADMIN
+Tem acesso ao serviço de usuário:
+> - Listar todos
+> - Listar por ID
+> - Cadastrar
+> - Atualizar
+> - Remover por ID
+
+- ROLE_TRIADOR
+Tem acesso ao serviço de processos:
+> - Listar todos
+> - Listar por ID
+> - Cadastrar
+> - Atualizar lista de usuários
+
+- ROLE_FINALIZADOR
+Tem acesso ao serviço de processos e pareceres:
+> - Listar todos os processos sem parecer pelo id do usuário
+> - Cadastar um parecer
+
+
+
+### Flyway
+Ferramenta responsável por fazer os migrations do banco de dados, criando e atualizando o mesmo conforme o aplicativo evolui. É atravéz dele que é realizado o cadastro do usuário inicial Admin.
+
+### ModelMapper
+Todas as entidades do domínio da aplicação são isoladas do recusos da mesma através do ModelMapper. Com ele é possível usar o conceito de Data Transfer Object (DTO), trazendo maior segurança a aplicação, versatilidade, manutenibilidade e evitar o uso da notação @JsonIgnore
+
+### Swagger
+Responsável por documentar a api, fornecendo todos os dados e recursos necessários para a mesma. Pode ser acessado através do link:
+
+```
+http://localhost:8080/swagger-ui.html#/
+```
+
+Caso ela esteja rodando localmente na porta 8080 que é a porta padrão deste projeto
+
+## Referências
+> https://spring.io/projects/spring-security
+
+> https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
+
+> https://bezkoder.com/spring-boot-jwt-authentication/
+
+

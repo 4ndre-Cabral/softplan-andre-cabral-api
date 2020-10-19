@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.softplan.desafio.auth.payload.request.LoginRequest;
 import com.softplan.desafio.auth.payload.request.SignupRequest;
@@ -26,7 +29,7 @@ import com.softplan.desafio.domain.model.User;
 import com.softplan.desafio.repository.RoleRepository;
 import com.softplan.desafio.repository.UserRepository;
 import com.softplan.desafio.security.jwt.JwtUtils;
-import com.softplan.desafio.security.services.UserDetailsImpl;
+import com.softplan.desafio.security.service.UserDetailsImpl;
 
 @Service
 public class AuthService {
@@ -65,58 +68,14 @@ public class AuthService {
 												 roles));
 	}
 
-	public ResponseEntity<?> register(@Valid SignupRequest signUpRequest) {
-		
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Email já em uso!"));
-		}
-
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Nome de usuário já está em uso!"));
-		}
-
-		// Cria novo usuário
-		User user = new User(signUpRequest.getUsername(), 
-							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
-
-		Set<String> strRoles = signUpRequest.getRole();
-		Set<Role> roles = new HashSet<>();
-
-		if (strRoles == null) {
-			Role userRole = roleRepository.findByName(RoleEnum.ROLE_FINALIZADOR)
-					.orElseThrow(() -> new RuntimeException("Privilégio não encontrada."));
-			roles.add(userRole);
-		} else {
-			strRoles.forEach(role -> {
-				switch (role) {
-				case "admin":
-					Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
-							.orElseThrow(() -> new RuntimeException("Privilégio não encontrada."));
-					roles.add(adminRole);
-
-					break;
-				case "triad":
-					Role modRole = roleRepository.findByName(RoleEnum.ROLE_TRIADOR)
-							.orElseThrow(() -> new RuntimeException("Privilégio não encontrada."));
-					roles.add(modRole);
-
-					break;
-				default:
-					Role userRole = roleRepository.findByName(RoleEnum.ROLE_FINALIZADOR)
-							.orElseThrow(() -> new RuntimeException("Privilégio não encontrada."));
-					roles.add(userRole);
-				}
-			});
-		}
-
-		user.setRoles(roles);
-		userRepository.save(user);
-
-		return ResponseEntity.ok(new MessageResponse("Usuário cadastrado com sucesso!"));
+	public ResponseEntity<String> refresh(HttpServletRequest request) {
+		String headerAuth = request.getHeader("Authorization");
+		String token = headerAuth.substring(7, headerAuth.length());
+		String userName = jwtUtils.getUserNameFromJwtToken(token);
+		String jwt = jwtUtils.generateJwtTokenByUserName(userName);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", "Bearer " + jwt);
+		return ResponseEntity.ok().headers(headers).body("Autorizado com sucesso !");
 	}
+
 }

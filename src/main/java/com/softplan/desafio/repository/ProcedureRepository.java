@@ -20,4 +20,6 @@ public interface ProcedureRepository extends JpaRepository<Procedure, Long> {
 			" NOT EXISTS (SELECT id FROM opinions o WHERE o.user_id = :userId AND o.procedure_id = p.id ) ",
 			nativeQuery = true)
 	List<Procedure> findUnsignedProceduresByUserId(@Param("userId") Long userId);
+	
+	List<Procedure> findAllByUserId(@Param("userId") Long userId);
 }

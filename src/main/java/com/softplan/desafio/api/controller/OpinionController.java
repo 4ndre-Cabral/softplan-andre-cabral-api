@@ -1,4 +1,4 @@
-package com.softplan.desafio.api.controllers;
+package com.softplan.desafio.api.controller;
 
 import javax.validation.Valid;
 
@@ -21,7 +21,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/opinions")
 public class OpinionController {
@@ -30,7 +29,7 @@ public class OpinionController {
 	OpinionService opinionService;
 	
 	@PostMapping
-	@ApiOperation(value = "Listar todos os processos", authorizations = { @Authorization(value = "Usuário finalizador") })
+	@ApiOperation(value = "Cadastar um parecer", authorizations = { @Authorization(value = "Bearer Authentication") })
 	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('FINALIZADOR')")

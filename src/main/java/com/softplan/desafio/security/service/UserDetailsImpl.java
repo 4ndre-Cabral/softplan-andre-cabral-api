@@ -1,4 +1,4 @@
-package com.softplan.desafio.security.services;
+package com.softplan.desafio.security.service;
 
 import java.util.Collection;
 import java.util.List;

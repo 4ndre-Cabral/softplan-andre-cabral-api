@@ -1,4 +1,4 @@
-package com.softplan.desafio.api.controllers;
+package com.softplan.desafio.api.controller;
 
 import java.util.List;
 
@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.softplan.desafio.api.payload.request.UserRequest;
 import com.softplan.desafio.api.payload.response.UserResponse;
+import com.softplan.desafio.auth.payload.request.SignupRequest;
 import com.softplan.desafio.exception.NotFoundException;
 import com.softplan.desafio.service.UserService;
 
@@ -31,7 +32,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -40,16 +40,16 @@ public class UserController {
 	UserService userService;
 	
 	@GetMapping
-	@ApiOperation(value = "Listar todos usuários", authorizations = { @Authorization(value = "Usuário administrador") })
+	@ApiOperation(value = "Listar todos usuários", authorizations = { @Authorization(value = "Bearer Authentication") })
 	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
 	@ResponseStatus(HttpStatus.OK)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TRIADOR')")
 	public List<UserResponse> findAll() {
 		return userService.findAll();
 	}
 	
 	@GetMapping("/{id}")
-	@ApiOperation(value = "Listar por ID", authorizations = { @Authorization(value = "Usuário administrador") })
+	@ApiOperation(value = "Listar por ID", authorizations = { @Authorization(value = "Bearer Authentication") })
 	@ResponseStatus(HttpStatus.OK)
 	@ApiResponses({
 		@ApiResponse(code = 401, message = "Acesso não autorizado."),
@@ -64,8 +64,21 @@ public class UserController {
 		}
 	}
 	
+
+
+	@PostMapping("/signup")
+	@ApiOperation(value = "Cadastrar usuário", authorizations = { @Authorization(value = "Bearer Authentication") })
+	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado.") })
+	@ResponseStatus(HttpStatus.OK)
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> userRegister(@Valid @RequestBody SignupRequest signUpRequest) {
+		
+		return userService.register(signUpRequest);
+		
+	}
+	
 	@PutMapping("/{id}")
-	@ApiOperation(value="Atualizar", authorizations = {@Authorization(value="Usuário administrador")})
+	@ApiOperation(value="Atualizar", authorizations = {@Authorization(value="Bearer Authentication")})
 	@ResponseStatus(HttpStatus.OK)
 	@ApiResponses({
 		@ApiResponse(code = 401, message = "Acesso não autorizado."),
@@ -82,7 +95,7 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/{id}")
-	@ApiOperation(value="Remover", authorizations = {@Authorization(value="Usuário administrador")})
+	@ApiOperation(value="Remover", authorizations = {@Authorization(value="Bearer Authentication")})
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiResponses({
 		@ApiResponse(code = 401, message = "Acesso não autorizado."),

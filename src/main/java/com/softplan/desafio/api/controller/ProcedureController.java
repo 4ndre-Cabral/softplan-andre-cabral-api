@@ -1,4 +1,4 @@
-package com.softplan.desafio.api.controllers;
+package com.softplan.desafio.api.controller;
 
 import java.util.List;
 
@@ -31,7 +31,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/procedures")
 public class ProcedureController {
@@ -40,16 +39,16 @@ public class ProcedureController {
 	ProcedureService procedureService;
 	
 	@GetMapping
-	@ApiOperation(value = "Listar todos os processos", authorizations = { @Authorization(value = "Usuário triador e finalizador") })
+	@ApiOperation(value = "Listar todos os processos", authorizations = { @Authorization(value = "Bearer Authentication") })
 	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
 	@ResponseStatus(HttpStatus.OK)
-	@PreAuthorize("hasRole('FINALIZADOR') or hasRole('TRIADOR')")
+	@PreAuthorize("hasRole('TRIADOR')")
 	public List<ProcedureResponse> findAll() {
 		return procedureService.findAll();
 	}
 
-	@GetMapping("{userId}/unsigned")
-	@ApiOperation(value = "Listar todos os processos sem parecer pelo id do usuário ", authorizations = { @Authorization(value = "Usuário finalizador") })
+	@GetMapping("unsigned/{userId}")
+	@ApiOperation(value = "Listar todos os processos sem parecer pelo id do usuário ", authorizations = { @Authorization(value = "Bearer Authentication") })
 	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('FINALIZADOR')")
@@ -57,18 +56,31 @@ public class ProcedureController {
 		return procedureService.findUnsignedProceduresByUserId(userId);
 	}
 	
-	@PostMapping
-	@ApiOperation(value = "Listar todos os processos", authorizations = { @Authorization(value = "Usuário triador") })
+	@GetMapping("{id}")
+	@ApiOperation(value = "Listar processo pelo id ", authorizations = { @Authorization(value = "Bearer Authentication") })
 	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('TRIADOR')")
-	public ProcedureResponse  userRegister(@Valid @RequestBody ProcedureRequest dto) {
+	public ProcedureResponse findById(@ApiParam(required=true) @PathVariable Long id) {
+		try {
+			return procedureService.findById(id);
+		} catch (NotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+		}
+	}
+	
+	@PostMapping
+	@ApiOperation(value = "Cadastrar novo processo", authorizations = { @Authorization(value = "Bearer Authentication") })
+	@ApiResponses({ @ApiResponse(code = 401, message = "Acesso não autorizado."), })
+	@ResponseStatus(HttpStatus.OK)
+	@PreAuthorize("hasRole('TRIADOR')")
+	public ProcedureResponse procedureRegister(@Valid @RequestBody ProcedureRequest dto) {
 		return procedureService.add(dto);
 		
 	}
 	
 	@PutMapping("/{id}")
-	@ApiOperation(value="Atualizar", authorizations = {@Authorization(value="Usuário triador")})
+	@ApiOperation(value="Atualizar lista de usuários de um processo", authorizations = {@Authorization(value="Bearer Authentication")})
 	@ResponseStatus(HttpStatus.OK)
 	@ApiResponses({
 		@ApiResponse(code = 401, message = "Acesso não autorizado."),

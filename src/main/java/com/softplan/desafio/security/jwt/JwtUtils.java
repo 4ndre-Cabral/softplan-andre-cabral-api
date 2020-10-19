@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.softplan.desafio.security.services.UserDetailsImpl;
+import com.softplan.desafio.security.service.UserDetailsImpl;
+
 import io.jsonwebtoken.*;
 
 @Component
@@ -27,6 +28,16 @@ public class JwtUtils {
 
 		return Jwts.builder()
 				.setSubject((userPrincipal.getUsername()))
+				.setIssuedAt(new Date())
+				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+				.signWith(SignatureAlgorithm.HS512, jwtSecret)
+				.compact();
+	}
+	
+	public String generateJwtTokenByUserName(String userName) {
+
+		return Jwts.builder()
+				.setSubject((userName))
 				.setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)

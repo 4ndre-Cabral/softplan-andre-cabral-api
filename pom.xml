@@ -13,7 +13,7 @@
 	<artifactId>softplan-desafio-fullstack-andre-cabral-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>softplan-desafio-fullstack-andre-cabral-api</name>
-	<description>Demo project for Spring Boot Security - JWT</description>
+	<description>RestAPI Softplan challenge</description>
 
 	<properties>
 		<java.version>1.8</java.version>

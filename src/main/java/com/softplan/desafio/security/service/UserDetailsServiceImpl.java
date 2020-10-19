@@ -1,4 +1,4 @@
-package com.softplan.desafio.security.services;
+package com.softplan.desafio.security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
