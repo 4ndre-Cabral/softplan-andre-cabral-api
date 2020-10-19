@@ -36,17 +36,17 @@ precisar. Pensando nisso, esta api foi projeta para ser rodada em seu próprio s
 ## Usuário Admin inicial
 Para acessar qualquer recurso da api (com exceção do login) é necessáro ter privilégios. Para evitar que o usuário que irá testar a aplicação tenha que cadastrar um usuário manualmente, a aplicação cadastra um usuário Admin com os seguintes dados:
 
-> Nome de usuário: admin
-> Senha: 123456
+- Nome de usuário: admin
+- Senha: 123456
 
 ---
 
 ## Suposições e caracteristicas do projeto
 
 ### Entidades e relacionamentos
-- Cada usuário (User) pode está relacionado com um ou mais tipo de usuário (Role)
+- Cada usuário (User) pode estar relacionado com um ou mais tipo de usuário (Role)
 - Cada processo (Procedure) deve estar relacionado a um usuário (User de cadastro). E pode estar relacionado a vários pareceres.
-- Cada parecer (Opinion) deve está relacionado a um usuário (User) e um processo (Procedure)
+- Cada parecer (Opinion) deve estar relacionado a um usuário (User) e um processo (Procedure)
 
 ### Ferramentas utilizadas
 
