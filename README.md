@@ -99,7 +99,7 @@ Responsável por documentar a api, fornecendo todos os dados e recursos necessá
 http://localhost:8080/swagger-ui.html#/
 ```
 
-Caso ela esteja rodando localmente na porta 8080 que é a porta padrão deste projeto
+Caso a api esteja rodando localmente na porta 8080 que é a porta padrão deste projeto
 
 ## Referências
 > https://spring.io/projects/spring-security
