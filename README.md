@@ -92,11 +92,12 @@ A documentação de todos endpoints da api pode ser encontrada na seguinte URL:
 http://localhost:8080/swagger-ui.html#/
 ```
 
-Caso a api esteja rodando localmente na porta 8080 que é a porta padrão deste projeto. De outra forma subistiua a URL (localhost) e a porta (8080) conforme sua necessidade.
+Caso a api esteja rodando localmente na porta 8080 que é a porta padrão deste projeto. De outra forma substitua a URL (localhost) e a porta (8080) conforme sua necessidade.
 
 > Atenção: é necessário autenticar com um usuário ADMIN para ter acesso a todos endpoints
 
 > Ex.: Clique no botão `Authorize` e no campo `Value` insira um token de autenticação válido, depois clique em `Authorize` novamente
+
 > Exemplo de token válido: `Bearer + token_gerado_ao_fazer_login`
 
 ### Flyway
