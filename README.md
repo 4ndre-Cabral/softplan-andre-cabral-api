@@ -105,6 +105,9 @@ Ferramenta responsável por fazer os migrations do banco de dados, criando e atu
 ### ModelMapper
 Todas as entidades do domínio da aplicação são isoladas do recusos da mesma através do ModelMapper. Com ele é possível usar o conceito de Data Transfer Object (DTO), trazendo maior segurança a aplicação, versatilidade, manutenibilidade e evitar o uso da notação @JsonIgnore
 
+### Validation com Spring Boot Starter Validation
+O projeto como um todo conta com validação do campos tanto no front-end quanto aqui na api. Para isso foi utilizado a ferramenta Spring Boot Starter Validation
+
 ## Referências
 > https://spring.io/projects/spring-security
 
