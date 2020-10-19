@@ -31,7 +31,7 @@ project.description=@project.description@
 ```
 #### Tavez você não queira usar o banco de dados de teste
 O banco de dados de teste da AWS é lento e talvez não esteja disponível quando você
-precisar. Pensando nisso, esta api foi projeta para ser rodada em seu próprio servidor MySQL. Sendo assim, basta alterar as variáveis de conexão para seu próprio servidor. A api irá instânciar um novo banco com todas as tabelas necessárias e também irá cadastrar um usuário Admin para teste.
+precisar. Pensando nisso, esta api foi projeta para ser rodada em qualquer servidor MySQL 5.5+. Sendo assim, basta alterar as variáveis de conexão para seu servidor MySQL particular. A api irá instânciar um novo banco com todas as tabelas necessárias e também irá cadastrar os Roles (tipos de usuário) e um usuário Admin para teste.
 
 ## Usuário Admin inicial
 Para acessar qualquer recurso da api (com exceção do login) é necessáro ter privilégios. Para evitar que o usuário que irá testar a aplicação tenha que cadastrar um usuário manualmente, a aplicação cadastra um usuário Admin com os seguintes dados:
@@ -45,7 +45,7 @@ Para acessar qualquer recurso da api (com exceção do login) é necessáro ter 
 
 ### Entidades e relacionamentos
 - Cada usuário (User) pode estar relacionado com um ou mais tipo de usuário (Role)
-- Cada processo (Procedure) deve estar relacionado a um usuário (User de cadastro). E pode estar relacionado a vários pareceres.
+- Cada processo (Procedure) deve estar relacionado a um usuário (User de cadastro). E pode estar relacionado a vários pareceres (Opinion)
 - Cada parecer (Opinion) deve estar relacionado a um usuário (User) e um processo (Procedure)
 
 ### Ferramentas utilizadas
@@ -92,12 +92,12 @@ A documentação de todos endpoints da api pode ser encontrada na seguinte URL:
 http://localhost:8080/swagger-ui.html#/
 ```
 
-Caso a api esteja rodando localmente na porta 8080 que é a porta padrão deste projeto
+Caso a api esteja rodando localmente na porta 8080 que é a porta padrão deste projeto. De outra forma subistiua a URL (localhost) e a porta (8080) conforme sua necessidade.
 
 > Atenção: é necessário autenticar com um usuário ADMIN para ter acesso a todos endpoints
 
-> Ex.: Clique no botão Authorize e no campo Value insira um token de autenticação válido, depois clique em Authorize novamente
-> Exemplo de token válido: Bearer + token_gerado_ao_fazer_login
+> Ex.: Clique no botão `Authorize` e no campo `Value` insira um token de autenticação válido, depois clique em `Authorize` novamente
+> Exemplo de token válido: `Bearer + token_gerado_ao_fazer_login`
 
 ### Flyway
 Ferramenta responsável por fazer os migrations do banco de dados, criando e atualizando o mesmo conforme o aplicativo evolui. É atravéz dele que é realizado o cadastro do usuário inicial Admin e os respectivos Roles: ROLE_ADMIN, ROLE_TRIADOR e ROLE_FINALIZADOR
@@ -109,10 +109,11 @@ Todas as entidades do domínio da aplicação são isoladas do recusos da mesma 
 O projeto como um todo conta com validação do campos tanto no front-end quanto aqui na api. Para isso foi utilizado a ferramenta Spring Boot Starter Validation
 
 ## Referências
-> https://spring.io/projects/spring-security
+> [Spring Security](https://spring.io/projects/spring-security)
 
-> https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
+> [Spring Data JPA](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods)
 
-> https://bezkoder.com/spring-boot-jwt-authentication/
+> [JWT Authentication](https://bezkoder.com/spring-boot-jwt-authentication/)
 
+> [Spring Boot com Swagger](https://www.treinaweb.com.br/blog/documentando-uma-api-spring-boot-com-o-swagger/)
 
