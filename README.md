@@ -18,16 +18,6 @@ da AWS (para simplificar os teste da api).
 spring.datasource.url=jdbc:mysql://database-1.cvdrvan6iiux.us-east-2.rds.amazonaws.com:3306/softplan?createDatabaseIfNotExist=true&serverTimezone=UTC
 spring.datasource.username=admin
 spring.datasource.password=3271512a
-
-spring.jpa.show-sql=true
-
-# App Properties
-softplan.app.jwtSecret= softplanSecretKey
-softplan.app.jwtExpirationMs= 86400000
-
-project.version=@project.version@
-project.name=@project.name@
-project.description=@project.description@
 ```
 #### Tavez você não queira usar o banco de dados de teste
 O banco de dados de teste da AWS é lento e talvez não esteja disponível quando você
