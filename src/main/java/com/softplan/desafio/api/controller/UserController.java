@@ -103,7 +103,8 @@ public class UserController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiResponses({
 		@ApiResponse(code = 401, message = "Acesso não autorizado."),
-		@ApiResponse(code = 404, message = "Não encontrado")
+		@ApiResponse(code = 404, message = "Não encontrado"),
+		@ApiResponse(code = 500, message = "Erro interno.")
 	})
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> deleteById(@ApiParam(required=true) @PathVariable Long id) {

@@ -63,6 +63,15 @@ public class User {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<Opinion> opinions;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private List<Procedure> procedures;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(	name = "procedure_opinion", 
+				joinColumns = @JoinColumn(name = "user_id"), 
+				inverseJoinColumns = @JoinColumn(name = "procedure_id"))
+	private Set<Procedure> proceduresByUser = new HashSet<>();
 
 	public User(String username, String email, String password) {
 		this.username = username;

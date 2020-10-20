@@ -18,4 +18,8 @@ public class UserResponse {
 	private List<OpinionResponse> opinions;
     
     private Set<RoleResponse> roles;
+    
+    private List<ProcedureUserResponse> procedures;
+    
+    private Set<ProcedureUserResponse> proceduresByUser;
 }
