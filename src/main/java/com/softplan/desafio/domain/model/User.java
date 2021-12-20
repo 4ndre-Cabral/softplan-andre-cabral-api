@@ -24,6 +24,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,7 +36,7 @@ import lombok.Setter;
 			@UniqueConstraint(columnNames = "email") 
 		})
 @Setter @Getter
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor @Builder
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,10 +8,11 @@ import java.util.Set;
 import com.softplan.desafio.domain.model.Opinion;
 import com.softplan.desafio.domain.model.User;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter @Getter
+@Setter @Getter @Builder
 public class ProcedureResponse {
 
 	private Long id;
